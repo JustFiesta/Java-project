@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class Order implements QueueOperations{
+    int orderID;
+    Status productStatus;
 
     ArrayList<Product> productList = new ArrayList<>();
 

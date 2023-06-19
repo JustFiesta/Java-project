@@ -1,4 +1,4 @@
 public abstract class Product {
-    Status productStatus;
-
+    String name;
+    int price;
 }
