@@ -1,10 +1,11 @@
 public class Client {
     //Dane klienta
     private String name, email;
-    private int phoneNumber, clientID;
+    private int clientID;
+    private double phoneNumber;
 
     //Konstruktor obiektu klient
-    public Client(String name, String email, int phoneNumber, int clientID){
+    public Client(String name, String email, double phoneNumber, int clientID){
         setName(name);
         setEmail(email);
         setPhoneNumber(phoneNumber);
@@ -30,7 +31,7 @@ public class Client {
         return email;
     }
 
-    public int getPhoneNumber() {
+    public double getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -46,7 +47,7 @@ public class Client {
         this.email = email;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(double phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

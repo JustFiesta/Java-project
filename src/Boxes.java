@@ -1,7 +1,9 @@
-public class Food extends Product{
-    Dishes dish;
-    Drinks drink;
-    Extras extras;
+public class Boxes extends Product{
+    private Dishes dish;
+    private Drinks drink;
+    private Extras extras;
+
+
 
     public Dishes getDish() {
         return dish;

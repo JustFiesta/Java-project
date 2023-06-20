@@ -1,7 +1,6 @@
-public interface QueueOperations {
-    void addProduct(Product newProduct);
-    void removeProduct(Product product);
-    void showQueue();
+public interface QueueOperations{
+    void addToQueue(Order order);
+    void removeFromQueue(Order order);
     void saveQueueToFile(String path);
     void loadQueueFromFile(String path);
 }

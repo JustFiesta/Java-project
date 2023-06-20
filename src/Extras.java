@@ -1,8 +1,2 @@
-public enum Extras {
-    Cheese,
-    Becon,
-    Onion,
-    Patty,
-    Souce,
-    Fries
+public class Extras extends Product{
 }

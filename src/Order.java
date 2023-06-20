@@ -1,10 +1,14 @@
 import java.util.ArrayList;
 
-public class Order implements QueueOperations{
+public class Order implements OrderOperations{
     int orderID;
     Status productStatus;
+    Client client;
 
+    //Lista na produkty do zamówienia
     ArrayList<Product> productList = new ArrayList<>();
+
+
 
 
     @Override
@@ -18,17 +22,34 @@ public class Order implements QueueOperations{
     }
 
     @Override
-    public void showQueue() {
-
+    public void showOrder() {
+        System.out.println(productList);
+    }
+    public int getOrderID() {
+        return orderID;
     }
 
-    @Override
-    public void saveQueueToFile(String path) {
-
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
-    @Override
-    public void loadQueueFromFile(String path) {
+    public Status getProductStatus() {
+        return productStatus;
+    }
 
+    public void setProductStatus(Status productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
