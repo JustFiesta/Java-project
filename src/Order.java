@@ -2,23 +2,22 @@ import java.util.ArrayList;
 
 public class Order implements OrderOperations{
     int orderID;
-    Status productStatus;
+    Status productStatus = Status.In_progress;
     Client client;
 
     //Lista na produkty do zamówienia
-    ArrayList<Product> productList = new ArrayList<>();
-
+    public static ArrayList<Product> productList = new ArrayList<>();
 
 
 
     @Override
     public void addProduct(Product newProduct) {
-
+        productList.add(newProduct);
     }
 
     @Override
     public void removeProduct(Product product) {
-
+        productList.remove(product);
     }
 
     @Override
