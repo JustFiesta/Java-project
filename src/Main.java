@@ -28,33 +28,9 @@ public class Main implements QueueOperations{
         boolean programRunTime = true;
 
         //Logowanie - po skończonym menu i bazie
-//
-//            //sprawdzenie czy użytkownik istnieje - to do oddzielnej metody
-//        System.out.println("Czy masz konto użytkownika? T/N");
-//        String usrAcc = input.next();
-//        if (usrAcc == "N"){
-//            System.out.println("Musisz stworzyć konto użytkownika do składania zamówień!");
-//            System.out.println("Podaj imie:");
-//            String usrName = input.next();
-//            System.out.println("Podaj adres email:");
-//            String usrMail = input.next();
-//            System.out.println("Podaj adres numer telefonu:");
-//            double usrPhone = input.nextDouble();
-//
-//            Client newCustomer = new Client(usrName, usrMail, usrPhone,usrID);
-//        }else{
-//            System.out.println("Wspaniale! Podaj swoje dane");
-//
-//            // tak dla testu - tutaj wczytanie z pliku użytkownika, sprawdzenie czy istnieje, jeżeli nie to do początku
-//            System.out.println("Podaj imie:");
-//            String usrName = input.next();
-//            System.out.println("Podaj adres email:");
-//            String usrMail = input.next();
-//            System.out.println("Podaj adres numer telefonu:");
-//            double usrPhone = input.nextDouble();
-//
-//            Client loggedCustomer = new Client(usrName, usrMail, usrPhone, usrID);
-//        }
+
+
+
         //menu
         System.out.println("    ===== Burger House =====    ");
         System.out.println("Najszybszy burger w twoim mieście");
@@ -379,8 +355,7 @@ public class Main implements QueueOperations{
 
                     break;
                 case 6:
-                    //zatwierdzenie zamowienia
-                    //                orders;
+                    //zapis kolejk do pliku
                     break;
                 case 9:
                     //wyjscie z pętli - zakończenie programu
