@@ -7,11 +7,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-public class Main implements QueueOperations{
-
-    //trzeba dodać wczytywanie z pliku przed tym (if chcesz liste - wczytaj, else \/)
-
-
+public class Main {
     //kolejka FIFO zamowien
     static ArrayDeque<Order> Queue = new ArrayDeque<>();
 
@@ -915,27 +911,5 @@ public class Main implements QueueOperations{
     }
     public static void info(ArrayDeque<Order> queue){
         System.out.println(queue.toString());
-    }
-    @Override
-    public void addToQueue(Order order) {
-        order.setClient(usr);
-        Queue.addLast(order);
-    }
-
-    @Override
-    public void removeFromQueue(Order order) {
-        Queue.remove(order);
-    }
-
-
-    //obsługa csv - to dodam na końcu
-    @Override
-    public void saveQueueToFile(String path) {
-
-    }
-
-    @Override
-    public void loadQueueFromFile(String path) {
-
     }
 }
