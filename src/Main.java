@@ -26,6 +26,8 @@ public class Main implements QueueOperations{
     private static String usrName = null;
     private static int usrPin = 0;
     private static int usrPhone = 0;
+    private static Client usr;
+    private static boolean loginSession = false;
 
     //zmienna sterująca działaniem logowania
     static boolean loginRunTime = true;
@@ -37,9 +39,6 @@ public class Main implements QueueOperations{
         Order usrOrder = new Order();
 
         //Logowanie
-        // ID pobierane z bazy
-        int usrID = 0;
-
         //zmienna przetrzymująca dane admina
         String adminMail = "admin@burgerhouse.com";
 
@@ -54,13 +53,19 @@ public class Main implements QueueOperations{
 
                 //Zaloguj sie
                 if (usrAccChoice.equals("T") ||usrAccChoice.equals("t")){
-                    logIn();
 
+                    logIn();
+                    if (loginSession){
+                        usr = new Client(usrName, usrMail, usrPhone, getUsrID());
+                    }
                 //Dodaj konto
                 }else {
                     addUser();
                     //Po dodaniu konta zaloguj sie
                     logIn();
+                    if (loginSession){
+                        usr = new Client(usrName, usrMail, usrPhone, getUsrID());
+                    }
                 }
             }else {
                 System.out.println("Wpisano niepoprawny znak! Spróbuj ponownie");
@@ -78,8 +83,8 @@ public class Main implements QueueOperations{
             while (menuRunTime) {
 
                 usrOrder.setOrderID(orderID);
-                orderID++;
                 //zamówienia mają numerek jak w Mc - do 100, później lecą od początku
+
                 if (orderID > 100){
                     orderID = 1;
                 }
@@ -89,8 +94,10 @@ public class Main implements QueueOperations{
                 System.out.println("3 - usun produkt z zamowienia");
                 System.out.println("4 - wyswietl zamowienie");
                 System.out.println("5 - zatwierdz zamowienie");
-                System.out.println("6 - Zapisz kolejke zamowien do pliku");
-                System.out.println("7 - Przywroc kolejke zamowien z pliku");
+                //chyba jednak nie
+//                System.out.println("6 - Zapisz kolejke zamowien do pliku");
+//                System.out.println("7 - Przywroc kolejke zamowien z pliku");
+                System.out.println("8 - odbierz zamowienie");
                 System.out.println("9 - anuluj (wyjdz)");
                 System.out.println("Wybierz opcje");
                 int usrInput = input.nextInt();
@@ -363,7 +370,6 @@ public class Main implements QueueOperations{
                         }
                         break;
                     case 3:
-                        // do poprawy!!!
                         //usuwanie produktow z zamowienia
                         System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę)");
                         usrOrder.showOrder();
@@ -393,11 +399,14 @@ public class Main implements QueueOperations{
 
                         //Utworzenie kolejnego pustego zamówienia
                         usrOrder = new Order();
+                        orderID++;
 
                         break;
                     case 6:
                         //zapis kolejk do pliku
                         break;
+                    case 8:
+                        takeOrder();
                     case 9:
                         //wyjscie z pętli - zakończenie programu
                         System.out.println("Adios!");
@@ -410,7 +419,6 @@ public class Main implements QueueOperations{
             while (menuRunTime) {
 
                 usrOrder.setOrderID(orderID);
-                orderID++;
                 //zamówienia mają numerek jak w Mc - do 100, później lecą od początku
                 if (orderID > 100){
                     orderID = 1;
@@ -421,6 +429,7 @@ public class Main implements QueueOperations{
                 System.out.println("3 - usun produkt z zamowienia");
                 System.out.println("4 - wyswietl zamowienie");
                 System.out.println("5 - zatwierdz zamowienie");
+                System.out.println("8 - odbierz zamowienie");
                 System.out.println("9 - anuluj (wyjdz)");
                 System.out.println("Wybierz opcje");
                 int usrInput = input.nextInt();
@@ -693,7 +702,6 @@ public class Main implements QueueOperations{
                         }
                         break;
                     case 3:
-                        // do poprawy!!!
                         //usuwanie produktow z zamowienia
                         System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę)");
                         usrOrder.showOrder();
@@ -723,7 +731,22 @@ public class Main implements QueueOperations{
 
                         //Utworzenie kolejnego pustego zamówienia
                         usrOrder = new Order();
+                        orderID++;
 
+                        viewQueue();
+                        
+                        //poczeka 5 sekund jeżeli jest zamowienie i będzie gotowe
+                        if (!(Queue.isEmpty())){
+                            changeOrderStatus();
+                        }
+                        break;
+                    case 8:
+                        if (takeOrder()){
+                            System.out.println("Smacznego! Zapraszamy ponownie!");
+                            menuRunTime = false;
+                        }else {
+                            System.out.println("Twoje zamowienie nie jest gotowe!");
+                        }
                         break;
                     case 9:
                         //wyjscie z pętli - zakończenie programu
@@ -731,11 +754,29 @@ public class Main implements QueueOperations{
                         menuRunTime = false;
                         break;
                 }
-                viewQueue();
+                if (menuRunTime){
+                    viewQueue();
+                }
             }
         }
+    }
+    private static int getUsrID(){
+        int usrID;
 
-
+        String getUsrIdQuery = "SELECT `id` FROM `klienci` WHERE mail='"+ usrMail +"' AND pin="+ usrPin +";";
+        try{
+            databaseConnection = new DatabaseConnection();
+            Statement statement = databaseConnection.getConnection().createStatement();
+            ResultSet result = statement.executeQuery(getUsrIdQuery);
+            if (result.next()){
+                usrID = result.getInt(1);
+                databaseConnection.closeConnection();
+                return usrID;
+            }
+        }catch (SQLException e){
+            System.out.println("Nie pobrano id użytkownika!");
+        }
+        return 0;
     }
     private static void logIn(){
         System.out.println("      ===== Zaloguj się =====      ");
@@ -758,14 +799,15 @@ public class Main implements QueueOperations{
             usrName = result.getString(1);
             if ((result.getString(2).equals(usrMail)) && (result.getInt(3) == usrPin)){
                 loginRunTime = false;
+                loginSession = true;
             }
             databaseConnection.closeConnection();
         }catch (Exception e){
             e.getMessage();
+
             System.out.println("Błędne dane logowania! Spróbuj ponownie");
         }
     }
-
     private static void addUser(){
             System.out.println("     ===== Dodaj konto! =====    ");
             System.out.println("Podaj imie");
@@ -839,21 +881,44 @@ public class Main implements QueueOperations{
                 );
     }
     public static void viewQueue(){
-        System.out.println("        === Kolejka zamówień === ");
-        System.out.print("In Progress   |   Ready!\n");
-        //System.out.println(Queue); - wyświetla obietk i jego miejsce w pamięci
+        System.out.println("    === Kolejka zamówień === ");
+        System.out.println("In Progress:");
+        //System.out.println(Queue); - wyświetla obiekt i jego miejsce w pamięci
         //wyświetla wszystkie zamówienia (id)
         for (Order order: Queue) {
-            System.out.println(order.orderID);
+            System.out.print(order.orderID + " ");
+        }
+        System.out.println();
+        System.out.println("Ready: ");
+        for (Order order: Queue) {
+            if (order.getOrderStatus() == Status.Ready)
+            System.out.print(order.orderID + " ");
         }
         System.out.println();
     }
+    public static boolean takeOrder(){
+        if (Queue.getFirst().getOrderStatus() == Status.Ready){
+            Queue.removeFirst();
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public static void changeOrderStatus(){
+        //po 5 sekundach zamowienie bedzie gotowe
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Queue.getFirst().setOrderStatus(Status.Ready);
+    }
     public static void info(ArrayDeque<Order> queue){
-
         System.out.println(queue.toString());
     }
     @Override
     public void addToQueue(Order order) {
+        order.setClient(usr);
         Queue.addLast(order);
     }
 

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Order implements OrderOperations{
     int orderID;
-    Status productStatus = Status.In_progress;
+    Status orderStatus = Status.In_progress;
     Client client;
 
     //Lista na produkty do zamówienia
@@ -32,12 +32,12 @@ public class Order implements OrderOperations{
         this.orderID = orderID;
     }
 
-    public Status getProductStatus() {
-        return productStatus;
+    public Status getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setProductStatus(Status productStatus) {
-        this.productStatus = productStatus;
+    public void setOrderStatus(Status orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public ArrayList<Product> getProductList() {
