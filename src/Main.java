@@ -148,8 +148,11 @@ public class Main {
                             break;
                         case 2:
                             //dodawanie produktow do zamowienia - case każdy do każdego produktu
-                            System.out.println("Jaki produkt chcesz dodać do zamówienia? (wpisz numer z menu)");
+                            System.out.println("Jaki produkt chcesz dodać do zamówienia? (wpisz numer z menu) (9 - anuluj)");
                             int usrChoice = input.nextInt();
+                            if (goBack("usrChoice")){
+                                break;
+                            }
                             switch (usrChoice) {
                                 case 1:
                                     //wysyłanie kwerendy pobierającej dany posiłek z bazy
@@ -410,10 +413,12 @@ public class Main {
                             break;
                         case 3:
                             //usuwanie produktow z zamowienia
-                            System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę)");
+                            System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę) (9 - anuluj)");
                             usrOrder.showOrder();
                             String usrInputS = input.next();
-
+                            if (goBack("usrChoice")){
+                                break;
+                            }
                             //przy foreach rzuca exception - trzeba użyć iteratora
                             Iterator<Product> iterator = usrOrder.getProductList().iterator();
                             while (iterator.hasNext()) {
@@ -456,8 +461,11 @@ public class Main {
                             //zapis kolejki do pliku
                             //sprawdzam czy jest pusta
                             if (!Queue.isEmpty()){
-                                System.out.println("Gdzie chcesz zapisać kolejkę?");
+                                System.out.println("Gdzie chcesz zapisać kolejkę? (9 - anuluj)");
                                 try {
+                                    if (goBack("usrChoice")){
+                                        break;
+                                    }
                                     String usrPath = input.next();
                                     saveQueueToFile(usrPath);
                                 } catch (InputMismatchException e) {
@@ -471,7 +479,10 @@ public class Main {
                         case 7:
                             //usuwanie klientów
                             showAllUsers();
-                            System.out.println("Którego klienta chcesz usunąć? (wpisz mail)");
+                            System.out.println("Którego klienta chcesz usunąć? (wpisz mail) (9 - anuluj)");
+                            if (goBack("usrChoice")){
+                                break;
+                            }
                             try {
                                 String usrToRemove = input.next();
                                 removeUser(usrToRemove);
@@ -484,7 +495,6 @@ public class Main {
                             //odbierz zamowienie - po 5 sekundach będzie gotowe
                             if (takeOrder()){
                                 System.out.println("Smacznego! Zapraszamy ponownie!");
-                                System.exit(0);
                             }else {
                                 System.out.println("Twoje zamowienie nie jest gotowe!");
                             }
@@ -524,8 +534,11 @@ public class Main {
                         break;
                     case 2:
                         //dodawanie produktow do zamowienia - case każdy do każdego produktu
-                        System.out.println("Jaki produkt chcesz dodać do zamówienia? (wpisz numer z menu)");
+                        System.out.println("Jaki produkt chcesz dodać do zamówienia? (wpisz numer z menu) (9 - anuluj)");
                         int usrChoice = input.nextInt();
+                        if (goBack("usrChoice")){
+                            break;
+                        }
                         switch (usrChoice) {
                             case 1:
                                 //wysyłanie kwerendy pobierającej dany posiłek z bazy
@@ -786,10 +799,12 @@ public class Main {
                         break;
                     case 3:
                         //usuwanie produktow z zamowienia
-                        System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę)");
+                        System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę) (9 - anuluj)");
                         usrOrder.showOrder();
                         String usrInputS = input.next();
-
+                        if (goBack("usrChoice")){
+                            break;
+                        }
                         //przy foreach rzuca exception - trzeba użyć iteratora
                         Iterator<Product> iterator = usrOrder.getProductList().iterator();
                         while (iterator.hasNext()) {
@@ -810,8 +825,8 @@ public class Main {
                         //zatwierdzenie zamowienia (dodanie do kolejki)
                         //sprawdzam czy jest puste
                         if (!(usrOrder.productList.isEmpty())){
+                            //dodaje zamowienie do kolejki
                             Queue.add(usrOrder);
-                            //test dla ID
                             System.out.println("Zamówienie dodane do kolejki. ID zamówienia: " + usrOrder.getOrderID());
 
                             //Utworzenie kolejnego pustego zamówienia
@@ -847,6 +862,12 @@ public class Main {
                 }
             }
         }
+    }
+    public static boolean goBack(String usrInput){
+        if (usrInput.equals(9)){
+            return true;
+        }
+        return false;
     }
     private static int getUsrID(){
         int usrID;
