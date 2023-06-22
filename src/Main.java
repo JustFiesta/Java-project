@@ -410,6 +410,7 @@ public class Main {
                                     }
                                     break;
                             }
+
                             break;
                         case 3:
                             //usuwanie produktow z zamowienia
@@ -449,10 +450,7 @@ public class Main {
 
                                 viewQueue();
 
-                                //poczeka 5 sekund jeżeli jest zamowienie i będzie gotowe
-                                if (!(Queue.isEmpty())){
-                                    changeOrderStatus();
-                                }
+
                             }else {
                                 System.out.println("Nie mogę dodać pustego zamówienia!");
                             }
@@ -504,6 +502,9 @@ public class Main {
                             System.out.println("Adios!");
                             System.exit(0);
                             break;
+                    }
+                    if (!(Queue.isEmpty())){
+                        changeOrderStatus();
                     }
                     viewQueue();
                 }
