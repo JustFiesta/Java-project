@@ -2,19 +2,23 @@ import java.util.ArrayList;
 
 public class Order implements OrderOperations{
     int orderID;
+    int finalPrice = 0;
     Status orderStatus = Status.In_progress;
     Client client;
 
     //Lista na produkty do zamówienia
-    public static ArrayList<Product> productList = new ArrayList<>();
+    public ArrayList<Product> productList = new ArrayList<>();
 
 
+    @Override
+    public String toString() {
+        return "Zamówienie nr " + orderID + " " + client;
+    }
 
     @Override
     public void addProduct(Product newProduct) {
         productList.add(newProduct);
     }
-
     @Override
     public void removeProduct(Product product) {
         productList.remove(product);
@@ -22,7 +26,12 @@ public class Order implements OrderOperations{
 
     @Override
     public void showOrder() {
-        System.out.println(productList);
+        System.out.print(productList);
+        System.out.print(" Cena: ");
+        for (Product product : productList) {
+            finalPrice+=product.getPrice();
+        }
+        System.out.println(finalPrice);
     }
     public int getOrderID() {
         return orderID;
