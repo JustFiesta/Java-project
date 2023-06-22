@@ -15,14 +15,16 @@ public class Main {
     private static DatabaseConnection databaseConnection;
 
     //pobieranie danych od uzytkownika
-    private static Scanner input = new Scanner(System.in);
+    public static Scanner input = new Scanner(System.in);
 
     //Zmienne globalne dla danych użytkownika
     private static String usrMail = null;
     private static String usrName = null;
     private static int usrPin = 0;
     private static int usrPhone = 0;
-    private static Client usr;
+    public static Client usr;
+    //Obiekt zawierający produkty użytkownika
+    private static Order usrOrder;
     private static boolean loginSession = false;
 
     //zmienna sterująca działaniem logowania
@@ -32,8 +34,7 @@ public class Main {
         // początkowe zamowienie - każde kolejne będzie o jeden większe
         int orderID = 1;
 
-        //Obiekt zawierający produkty użytkownika
-        Order usrOrder = new Order();
+        usrOrder = new Order();
 
         //Logowanie
         //zmienna przetrzymująca dane admina
@@ -53,6 +54,7 @@ public class Main {
                     logIn();
                     if (loginSession){
                         usr = new Client(usrName, usrMail, usrPhone, getUsrID());
+                        usrOrder.setClient(usr);
                     }
                 //Dodaj konto
                 }else {
@@ -79,6 +81,7 @@ public class Main {
                     logIn();
                     if (loginSession){
                         usr = new Client(usrName, usrMail, usrPhone, getUsrID());
+                        usrOrder.setClient(usr);
                     }
                 }
             }else {
@@ -94,27 +97,28 @@ public class Main {
         //zmienna sterująca działaniem menu
         boolean menuRunTime = true;
         if (usrMail.equals(adminMail)) {
-
-            System.out.println("Wczytać poprzednią kolejkę z pliku? (T/N)");
-            String adminInput = null;
-            try {
-                adminInput = input.next();
-            } catch (InputMismatchException e) {
-
-            }
-            if (adminInput.equals("T") || adminInput.equals("t") || adminInput.equals("N") || adminInput.equals("n")){
-                if (adminInput.equals("T") || adminInput.equals("t")){
-                    System.out.println("Podaj ścieżkę pliku: ");
-                    try {
-                        String loadFilePath = input.next();
-                    }catch (InputMismatchException e){
-
-                    }
+                //wczytywanie kolejki z pliku
+//            System.out.println("Wczytać poprzednią kolejkę z pliku? (T/N)");
+//            String adminInput = null;
+//            try {
+//                adminInput = input.next();
+//            } catch (InputMismatchException e) {
+//
+//            }
+//            String loadFilePath = null;
+//            if (adminInput.equals("T") || adminInput.equals("t") || adminInput.equals("N") || adminInput.equals("n")){
+//                if (adminInput.equals("T") || adminInput.equals("t")){
+//                    System.out.println("Podaj ścieżkę pliku: ");
+//                    try {
+//                        loadFilePath = input.next();
+//                    }catch (InputMismatchException e){
+//                        System.out.println("Błąd w ścieżce/nazwie pliku!");
+//                    }
 //                    loadQueueFromFile(loadFilePath);
-                }
-            }else {
-                System.out.println("Kontynuuje bez wczytywania - wpisano niepoprawny znak");
-            }
+//                }
+//            }else {
+//                System.out.println("Kontynuuje bez wczytywania - wpisano niepoprawny znak");
+//            }
 
                 //Panel dla administratora
                 while (menuRunTime) {
@@ -130,7 +134,7 @@ public class Main {
                     System.out.println("3 - usun produkt z zamowienia");
                     System.out.println("4 - wyswietl zamowienie");
                     System.out.println("5 - zatwierdz zamowienie");
-                    System.out.println("6 - Zapisz kolejke zamowien do pliku");
+                    System.out.println("6 - zapisz kolejke zamowien do pliku");
                     System.out.println("7 - usuń konto klienta");
                     System.out.println("8 - odbierz zamowienie");
                     System.out.println("9 - anuluj (wyjdz)");
@@ -480,7 +484,7 @@ public class Main {
                             //odbierz zamowienie - po 5 sekundach będzie gotowe
                             if (takeOrder()){
                                 System.out.println("Smacznego! Zapraszamy ponownie!");
-                                menuRunTime = false;
+                                System.exit(0);
                             }else {
                                 System.out.println("Twoje zamowienie nie jest gotowe!");
                             }
@@ -488,7 +492,7 @@ public class Main {
                         case 9:
                             //wyjscie z pętli - zakończenie programu
                             System.out.println("Adios!");
-                            menuRunTime = false;
+                            System.exit(0);
                             break;
                     }
                     viewQueue();
@@ -827,7 +831,7 @@ public class Main {
                     case 8:
                         if (takeOrder()){
                             System.out.println("Smacznego! Zapraszamy ponownie!");
-                            menuRunTime = false;
+                            System.exit(0);
                         }else {
                             System.out.println("Twoje zamowienie nie jest gotowe!");
                         }
@@ -835,7 +839,7 @@ public class Main {
                     case 9:
                         //wyjscie z pętli - zakończenie programu
                         System.out.println("Adios!");
-                        menuRunTime = false;
+                        System.exit(0);
                         break;
                 }
                 if (menuRunTime){
@@ -1037,19 +1041,7 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-    private static void loadQueueFromFile(String path) {
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(path));
-            String line;
-            while ((line = reader.readLine()) != null) {
-
-
-
-//                Order orderFromFile = new Order(line.);
-//                Queue.addFirst();
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private static void loadQueueFromFile(String path) {
+//
+//    }
 }

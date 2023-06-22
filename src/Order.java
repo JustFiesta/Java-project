@@ -12,7 +12,7 @@ public class Order implements OrderOperations{
 
     @Override
     public String toString() {
-        return "Zamówienie nr " + orderID + " " + client;
+        return orderID + " " + client;
     }
 
     @Override
