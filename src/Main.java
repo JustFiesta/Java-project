@@ -803,7 +803,7 @@ public class Main {
                         System.out.println("Który produkt chcesz usunac z zamowienia? (Podaj nazwę) (9 - anuluj)");
                         usrOrder.showOrder();
                         String usrInputS = input.next();
-                        if (goBack("usrChoice")){
+                        if (goBack(usrInputS)){
                             break;
                         }
                         //przy foreach rzuca exception - trzeba użyć iteratora
@@ -847,7 +847,6 @@ public class Main {
                     case 8:
                         if (takeOrder()){
                             System.out.println("Smacznego! Zapraszamy ponownie!");
-                            System.exit(0);
                         }else {
                             System.out.println("Twoje zamowienie nie jest gotowe!");
                         }
