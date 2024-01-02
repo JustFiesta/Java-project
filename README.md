@@ -7,9 +7,9 @@ It had to be done with JDBC driver, without maven as dependency maganer.
 <hr>
 
 ## Catalog structure
--> src - all classes used in this project
--> library - JDBC jar dependency
--> Database/* - database export
+-> src - all classes used in this project  
+-> library - JDBC jar dependency  
+-> Database/* - database export  
 
 <hr>
 
